@@ -1,0 +1,192 @@
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  RadialLinearScale,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { formatCurrency, formatShortDate } from "./dateUtils.js";
+
+import zoomPlugin from "chartjs-plugin-zoom";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  RadialLinearScale,
+  Filler,
+  Tooltip,
+  Legend,
+  zoomPlugin
+);
+
+export const CHART_COLORS = {
+  blue: "#3b82f6",
+  indigo: "#6366f1",
+  green: "#22c55e",
+  yellow: "#eab308",
+  red: "#ef4444",
+  purple: "#a855f7",
+  pink: "#ec4899",
+  cyan: "#06b6d4",
+};
+
+export const CLIENT_COLORS = [
+  "#3b82f6",
+  "#6366f1",
+  "#22c55e",
+  "#eab308",
+  "#ef4444",
+  "#a855f7",
+  "#ec4899",
+  "#06b6d4",
+];
+
+export const defaultChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "top",
+      labels: {
+        usePointStyle: true,
+        padding: 16,
+        font: { size: 12 },
+      },
+    },
+  },
+};
+
+export const buildRevenueChartData = (revenueData) => ({
+  labels: revenueData.map((d) => formatShortDate(d.date)),
+  datasets: [
+    {
+      label: "Actual",
+      data: revenueData.map((d) => d.actual),
+      borderColor: CHART_COLORS.blue,
+      backgroundColor: `${CHART_COLORS.blue}1a`, // hex opacity 10%
+      tension: 0.4, // 0 = garis lurus, 1 = sangat melengkung (Bezier)
+      fill: true,
+      pointRadius: 3,
+      pointHoverRadius: 6,
+      pointBackgroundColor: CHART_COLORS.blue,
+    },
+    {
+      label: "Target",
+      data: revenueData.map((d) => d.target),
+      borderColor: CHART_COLORS.indigo,
+      backgroundColor: "transparent",
+      tension: 0.4,
+      borderDash: [6, 4], // garis putus-putus
+      fill: false,
+      pointRadius: 0, // titik tidak ditampilkan
+      pointHoverRadius: 5,
+      borderWidth: 2,
+    },
+  ],
+});
+
+export const buildStatusChartData = (projects) => {
+  const completed = projects.filter((p) => p.status === 'completed').length
+  const pending   = projects.filter((p) => p.status === 'pending').length
+  const onHold    = projects.filter((p) => p.status === 'on-hold').length
+
+  return {
+    labels: ['Status Project'],
+    datasets: [
+      {
+        label: 'Completed',
+        data: [completed],
+        backgroundColor: CHART_COLORS.green,
+        borderRadius: 4,
+      },
+      {
+        label: 'Pending',
+        data: [pending],
+        backgroundColor: CHART_COLORS.yellow,
+        borderRadius: 4,
+      },
+      {
+        label: 'On Hold',
+        data: [onHold],
+        backgroundColor: CHART_COLORS.red,
+        borderRadius: 4,
+      },
+    ],
+  }
+}
+
+export const buildClientChartData = (projects, clients) => {
+  // Hitung total revenue per clientId dari projects yang completed
+  const revenueMap = {}
+  projects
+    .filter((p) => p.status === 'completed')
+    .forEach((p) => {
+      revenueMap[p.clientId] = (revenueMap[p.clientId] || 0) + p.revenue
+    })
+  // Ambil nama client dari clients array
+  const labels  = []
+  const data    = []
+  const colors  = []
+  Object.entries(revenueMap).forEach(([clientId, revenue], index) => {
+    const client = clients.find((c) => c.id === clientId)
+    if (client) {
+      labels.push(client.name)
+      data.push(revenue)
+      colors.push(CLIENT_COLORS[index % CLIENT_COLORS.length])
+    }
+  })
+  return {
+    labels,
+    datasets: [{
+      data,
+      backgroundColor: colors,
+      borderWidth: 2,
+      borderColor: 'transparent',
+      hoverBorderColor: '#ffffff',
+      hoverOffset: 8,
+    }],
+  }
+}
+// Untuk Skills Radar Chart
+// Input: mockSkills[]
+// Output: radar data
+export const buildSkillsChartData = (skills) => ({
+  labels: skills.map((s) => s.skill),
+  datasets: [{
+    label: 'Skill Level',
+    data: skills.map((s) => s.level),
+    borderColor: CHART_COLORS.purple,
+    backgroundColor: `${CHART_COLORS.purple}33`, // hex opacity 20%
+    pointBackgroundColor: CHART_COLORS.purple,
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: CHART_COLORS.purple,
+    borderWidth: 2,
+  }],
+})
+
+// Custom tooltip untuk Revenue chart
+export const revenueTooltipPlugin = {
+  plugins: {
+    tooltip: {
+      callbacks: {
+        // Format nilai di tooltip: 5200000 → "Rp 5,2M"
+        label: (context) => {
+          const value = context.parsed.y
+          const label = context.dataset.label
+          return ` ${label}: ${formatCurrency(value)}`
+        },
+      },
+    },
+  },
+}
