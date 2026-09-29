@@ -10,7 +10,7 @@ function useLocalStorage(key, initialValue) {
             }
             return initialValue
         } catch (error) {
-            console.warn(`useLocalStorage: gagal membaca key "${key}".`, error)
+            console.warn(`useLocalStorage: failed to read key "${key}".`, error)
             return initialValue
         }
     })

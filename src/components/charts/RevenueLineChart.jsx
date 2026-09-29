@@ -70,10 +70,10 @@ function RevenueLineChart() {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-            Revenue — 30 Hari Terakhir
+            Revenue — Last 30 Days
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Scroll untuk zoom · Drag untuk pan
+            Scroll to zoom · Drag to pan
           </p>
         </div>
         <button

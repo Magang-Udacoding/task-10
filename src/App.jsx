@@ -9,7 +9,7 @@ import Dashboard from './pages/Dashboard'
 function App() {
   const { state, dispatch } = useDashboard()
 
-  // Load mock data sekali saat mount
+  // Load the mock data once on mount
   useEffect(() => {
     dispatch({ type: 'SET_PROJECTS',      payload: mockProjects })
     dispatch({ type: 'SET_CLIENTS',       payload: mockClients })
@@ -21,7 +21,7 @@ function App() {
     dispatch({ type: 'SET_REVENUE', payload: totalRevenue, mockRevenueData})
   }, [dispatch])
 
-  // Sync theme ke class <html>
+  // Sync the theme to the <html> class
   useEffect(() => {
     const root = document.documentElement
     state.theme === 'dark'

@@ -18,7 +18,7 @@ function SkillsRadarChart() {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false },  // legenda disembunyikan, cukup dari label radar
+      legend: { display: false },  // legend hidden, the radar labels are enough
       tooltip: {
         callbacks: {
           label: (context) => ` Level: ${context.parsed.r}/100`,
@@ -33,7 +33,7 @@ function SkillsRadarChart() {
           stepSize: 25,
           color: isDark ? '#94a3b8' : '#64748b',
           font: { size: 10 },
-          backdropColor: 'transparent',  // hapus background di belakang angka tick
+          backdropColor: 'transparent',  // remove the background behind the tick numbers
         },
         grid: {
           color: isDark ? '#334155' : '#e2e8f0',
@@ -56,7 +56,7 @@ function SkillsRadarChart() {
           Skill Overview
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          Level keahlian 0–100
+          Proficiency level 0–100
         </p>
       </div>
       <div className="h-64">

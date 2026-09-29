@@ -74,7 +74,7 @@ export const buildRevenueChartData = (revenueData) => ({
       data: revenueData.map((d) => d.actual),
       borderColor: CHART_COLORS.blue,
       backgroundColor: `${CHART_COLORS.blue}1a`, // hex opacity 10%
-      tension: 0.4, // 0 = garis lurus, 1 = sangat melengkung (Bezier)
+      tension: 0.4, // 0 = straight line, 1 = very curved (Bezier)
       fill: true,
       pointRadius: 3,
       pointHoverRadius: 6,
@@ -86,9 +86,9 @@ export const buildRevenueChartData = (revenueData) => ({
       borderColor: CHART_COLORS.indigo,
       backgroundColor: "transparent",
       tension: 0.4,
-      borderDash: [6, 4], // garis putus-putus
+      borderDash: [6, 4], // dashed line
       fill: false,
-      pointRadius: 0, // titik tidak ditampilkan
+      pointRadius: 0, // points are not displayed
       pointHoverRadius: 5,
       borderWidth: 2,
     },
@@ -101,7 +101,7 @@ export const buildStatusChartData = (projects) => {
   const onHold    = projects.filter((p) => p.status === 'on-hold').length
 
   return {
-    labels: ['Status Project'],
+    labels: ['Project Status'],
     datasets: [
       {
         label: 'Completed',
@@ -126,14 +126,14 @@ export const buildStatusChartData = (projects) => {
 }
 
 export const buildClientChartData = (projects, clients) => {
-  // Hitung total revenue per clientId dari projects yang completed
+  // Sum the total revenue per clientId from the completed projects
   const revenueMap = {}
   projects
     .filter((p) => p.status === 'completed')
     .forEach((p) => {
       revenueMap[p.clientId] = (revenueMap[p.clientId] || 0) + p.revenue
     })
-  // Ambil nama client dari clients array
+  // Look up the client name from the clients array
   const labels  = []
   const data    = []
   const colors  = []
@@ -157,7 +157,7 @@ export const buildClientChartData = (projects, clients) => {
     }],
   }
 }
-// Untuk Skills Radar Chart
+// For the Skills Radar Chart
 // Input: mockSkills[]
 // Output: radar data
 export const buildSkillsChartData = (skills) => ({
@@ -175,12 +175,12 @@ export const buildSkillsChartData = (skills) => ({
   }],
 })
 
-// Custom tooltip untuk Revenue chart
+// Custom tooltip for the Revenue chart
 export const revenueTooltipPlugin = {
   plugins: {
     tooltip: {
       callbacks: {
-        // Format nilai di tooltip: 5200000 → "Rp 5,2M"
+        // Format the value in the tooltip: 5200000 → "Rp 5.2M"
         label: (context) => {
           const value = context.parsed.y
           const label = context.dataset.label

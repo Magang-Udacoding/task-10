@@ -19,7 +19,7 @@ function ClientDonutChart() {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: '65%',   // donut hole size. 0% = pie chart penuh
+    cutout: '65%',   // donut hole size. 0% = full pie chart
     plugins: {
       legend: {
         position: 'right',
@@ -28,7 +28,7 @@ function ClientDonutChart() {
           padding: 12,
           color: labelColor,
           font: { size: 11 },
-          // Potong nama client jika terlalu panjang di legenda
+          // Truncate the client name if it is too long in the legend
           generateLabels: (chart) => {
             const datasets = chart.data.datasets
             return chart.data.labels.map((label, i) => ({
@@ -62,7 +62,7 @@ function ClientDonutChart() {
           Revenue per Client
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-          Dari project completed
+          From completed projects
         </p>
       </div>
       <div className="h-64">
