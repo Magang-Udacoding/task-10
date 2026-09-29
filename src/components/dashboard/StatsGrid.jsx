@@ -6,7 +6,7 @@ function StatsGrid() {
   const { state } = useDashboard();
 
   const completedProjects = state.projects.filter(
-    (p) => p.status === "commpleted",
+    (p) => p.status === "completed",
   );
   const pendingProjects = state.projects.filter((p) => p.status === "pending");
   const activeClients = state.clients.filter((c) => c.status === "active");

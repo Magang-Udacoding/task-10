@@ -22,25 +22,40 @@ function StatsCard({icon: Icon, label, value, sub, color = 'blue', trend}) {
                 />
             </div>
 
-            {trend !== undefined && (
+            <div
+            className="min-w-0"
+            >
                 <p
-                className={`text-xs mt-1 font-medium ${isPositive
-                    ? 'text-green-600 dark:text-green-400'
-                    : 'text-red-500 dark:text-red-400'
-                }`}
+                className="text-xs font-medium text-slate-500 dark:text-slate-400"
                 >
-                    {isPositive ? <FaArrowDown size={12}/> : <FaArrowUp size={12}/>}
-                    {Math.abs(trend)}% {sub}
+                    {label}
                 </p>
-            )}
 
-            {trend === undefined && sub && (
                 <p
-                className="text-xs mt-1 text-slate-400 dark:text-slate-500"
+                className="text-xl font-bold text-slate-900 dark:text-slate-100 mt-0.5 truncate"
                 >
-                    {sub}
+                    {value}
                 </p>
-            )}
+
+                {trend !== undefined && (
+                    <p
+                    className={`text-xs mt-1 font-medium ${isPositive
+                        ? 'text-green-600 dark:text-green-400'
+                        : 'text-red-500 dark:text-red-400'
+                    }`}
+                    >
+                        {isPositive ? <FaArrowDown size={12}/> : <FaArrowUp size={12}/>} {Math.abs(trend)}% {sub}
+                    </p>
+                )}
+
+                {trend === undefined && sub && (
+                    <p
+                    className="text-xs mt-1 text-slate-400 dark:text-slate-500"
+                    >
+                        {sub}
+                    </p>
+                )}
+            </div>
 
         </div>
     )
