@@ -98,7 +98,7 @@ export const buildRevenueChartData = (revenueData) => ({
 export const buildStatusChartData = (projects) => {
   const completed = projects.filter((p) => p.status === 'completed').length
   const pending   = projects.filter((p) => p.status === 'pending').length
-  const onHold    = projects.filter((p) => p.status === 'on-hold').length
+  const onHold    = projects.filter((p) => p.status === 'onHold').length
 
   return {
     labels: ['Project Status'],
