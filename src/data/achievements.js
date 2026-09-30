@@ -21,7 +21,7 @@ export const ACHIEVEMENTS = [
   },
 ];
 
-export const checkAchievment = (id, state) => {
+export const checkAchievement = (id, state) => {
   switch (id) {
     case "revenue_100m":
       return state.revenue >= 100_000_000;

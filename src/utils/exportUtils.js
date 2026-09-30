@@ -23,7 +23,7 @@ export const exportToCSV = (data, filename = 'export') => {
     // temporary element <a> 
     const link = document.createElement('a')
     link.href       = url
-    link.download   =  `${filename}-${new Date().toString().split('T')[0].csv}`
+    link.download   = `${filename}-${new Date().toISOString().split('T')[0]}.csv`
     document.body.appendChild(link)
     link.click()
 

@@ -45,7 +45,7 @@ function StatsCard({icon: Icon, label, value, sub, color = 'blue', trend}) {
                         : 'text-red-500 dark:text-red-400'
                     }`}
                     >
-                        {isPositive ? <FaArrowDown size={12}/> : <FaArrowUp size={12}/>} {Math.abs(trend)}% {sub}
+                        {isPositive ? <FaArrowUp size={12}/> : <FaArrowDown size={12}/>} {Math.abs(trend)}% {sub}
                     </p>
                 )}
 

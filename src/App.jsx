@@ -1,7 +1,7 @@
 // src/App.jsx
 import { useEffect } from 'react'
 import useDashboard from './hooks/useDashboard'
-import { mockProjects, mockClients, mockRevenueData, mockNotifications } from './data/Mock.js'
+import { mockProjects, mockClients, mockNotifications } from './data/Mock.js'
 import Navbar from './components/layout/Navbar'
 import Sidebar from './components/layout/Sidebar'
 import Dashboard from './pages/Dashboard'
@@ -19,7 +19,7 @@ function App() {
     const totalRevenue = mockProjects
       .filter((p) => p.status === 'completed')
       .reduce((sum, p) => sum + p.revenue, 0)
-    dispatch({ type: 'SET_REVENUE', payload: totalRevenue, mockRevenueData})
+    dispatch({ type: 'SET_REVENUE', payload: totalRevenue })
   }, [dispatch])
 
   // Sync the theme to the <html> class

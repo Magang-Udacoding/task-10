@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useDashboard from "./useDashboard";
 import useLocalStorage from "./useLocalStorage";
-import { ACHIEVEMENTS, checkAchievment } from "../data/achievements";
+import { ACHIEVEMENTS, checkAchievement } from "../data/achievements";
 
 function useAchievements() {
     const {state} = useDashboard()
@@ -13,9 +13,9 @@ function useAchievements() {
     useEffect(() => {
         if (state.projects.length === 0) return 
 
-        // check all achievements, search newly unlocekd and not seen
+        // check all achievements, search newly unlocked and not seen
         const newUnlocked = ACHIEVEMENTS.find(
-            (a) => !seenIds.includes(a.id) && checkAchievment(a.id, state)
+            (a) => !seenIds.includes(a.id) && checkAchievement(a.id, state)
         )
 
         if (newUnlocked && !activeAchievement) {

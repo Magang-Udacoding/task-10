@@ -17,7 +17,7 @@ function Navbar() {
     dispatch({ type: "SET_FILTER", payload: debounceSearch });
   }, [debounceSearch, dispatch]);
 
-  const hanldeClearSearch = () => {
+  const handleClearSearch = () => {
     setSearchInput("");
     dispatch({ type: "RESET_FILTER" });
   };
@@ -49,7 +49,7 @@ function Navbar() {
         />
         {searchInput && (
           <button
-            onClick={hanldeClearSearch}
+            onClick={handleClearSearch}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
           >
             <FiX size={14} />
@@ -57,7 +57,7 @@ function Navbar() {
         )}
       </div>
 
-      <div className="flex items-centr gap-1 shrink-0">
+      <div className="flex items-center gap-1 shrink-0">
         <button className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
           <FiBell size={18} />
           {unreadCount > 0 && (

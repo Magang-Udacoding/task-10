@@ -24,7 +24,7 @@ function Sidebar() {
   
   const [activeNav, setActiveNav] = useState('dashboard')
 
-  const recentProjecs = [...state.projects]
+  const recentProjects = [...state.projects]
     .sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
     .slice(0, 5)
 
@@ -128,10 +128,10 @@ function Sidebar() {
                 <div
                 className="space-y-1"
                 >
-                {recentProjecs.map((project) => (
+                {recentProjects.map((project) => (
                     <div
                     key={project.id}
-                    className="lex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer"
                     >
                         <FiCircle
                         size={8}
