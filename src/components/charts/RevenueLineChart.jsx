@@ -31,6 +31,15 @@ function RevenueLineChart() {
         },
       },
       zoom: {
+        limits: {
+          x: {
+            // Jangan bisa di-pan / di-zoom keluar dari jangkauan data
+            min: 'original',
+            max: 'original',
+            // Zoom IN dibatasi: minimal 7 titik (≈1 minggu) tetap terlihat
+            minRange: 7,
+          },
+        },
         pan: {
           enabled: true,
           mode: 'x',

@@ -44,7 +44,7 @@ function Sidebar() {
                 <div
                 className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center"
                 >
-                    <p
+                    <div
                     className="text-sm font-bold text-gray-900 dark:text-white"
                     >
                         Freelance
@@ -53,7 +53,7 @@ function Sidebar() {
                         >
                             Dashboard
                         </p>
-                    </p>
+                    </div>
                 </div>
             </div>
             
