@@ -24,12 +24,14 @@ function Navbar() {
 
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between gap-4 px-6 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800">
-      <div className="hidden md:block shrink-0">
+      {/* page title — hidden on small screens so the search bar keeps its room */}
+      <div className="hidden shrink-0 md:block">
         <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
           Overview
         </h2>
-        <p className="text-xs text-gray-600 dark:text-gray-400">
-          Welcome Back Again! <MdWavingHand color="#FFD700" size={18} />
+        <p className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
+          Welcome Back Again!
+          <MdWavingHand size={14} className="text-yellow-400" />
         </p>
       </div>
 

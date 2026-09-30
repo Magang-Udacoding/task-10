@@ -38,22 +38,19 @@ function Sidebar() {
         <aside
         className="fixed top-0 left-0 h-full w-64 flex flex-col bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-40"
         >
-            <div
-            className="flex items-center gap-3 px-6 py-5 border-b border-gray-200 dark:border-gray-800"
-            >
-                <div
-                className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center"
-                >
-                    <div
-                    className="text-sm font-bold text-gray-900 dark:text-white"
-                    >
+            {/* Brand — kotak 32px ini slot logo; ganti "F" dengan <img> bila ada */}
+            <div className="flex items-center gap-3 px-6 py-5 border-b border-gray-200 dark:border-gray-800">
+                <div className="w-8 h-8 shrink-0 rounded-lg bg-blue-500/15 text-blue-500 flex items-center justify-center text-sm font-bold">
+                    F
+                </div>
+
+                <div className="min-w-0">
+                    <p className="text-sm font-semibold leading-tight text-gray-900 dark:text-white">
                         Freelance
-                        <p
-                        className="text-xs text-gray-600 dark:text-gray-400"
-                        >
-                            Dashboard
-                        </p>
-                    </div>
+                    </p>
+                    <p className="text-xs leading-tight text-gray-600 dark:text-gray-400">
+                        Dashboard
+                    </p>
                 </div>
             </div>
             
