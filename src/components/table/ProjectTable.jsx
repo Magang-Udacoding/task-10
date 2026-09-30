@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react'
-import { FiChevronUp, FiChevronDown } from 'react-icons/fi'
+import { FiChevronUp, FiChevronDown, FiDownload } from 'react-icons/fi'
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import useDashboard from '../../hooks/useDashboard'
 import useSort from '../../hooks/useSort'
 import usePagination from '../../hooks/usePagination'
 import { formatCurrency, formatShortDate } from '../../utils/dateUtils.js'
 import { FaArrowsUpDown } from 'react-icons/fa6'
+import { exportToCSV, transformProjectsForExport } from '../../utils/exportUtils.js';
 
 const COLUMNS = [
     {
@@ -106,6 +107,19 @@ function ProjectTable() {
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     )
   }
+
+  // export csv handler
+  const handleExport = () => {
+    const dataToExport = selectedIds.length>0
+      ? filteredProjects.filter((p) => selectedIds.includes(p.id))
+      : filteredProjects
+
+      exportToCSV(
+        transformProjectsForExport(dataToExport),
+        'freelance-projects'
+      )
+  }
+
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
       {/*   Table header   */}
@@ -118,9 +132,10 @@ function ProjectTable() {
           setSelectedIds([])
         }}
         onClearSelection={() => setSelectedIds([])}
+        onExport={handleExport}
       />
       {/*   Table   */}
-      <div className="overflow-x-auto">
+      <div className="overflow-auto max-h-96 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
         <table className="w-full text-sm">
           <thead className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700">
             <tr>
@@ -253,7 +268,7 @@ function ProjectRow({ project, isSelected, onToggle }) {
   )
 }
 //   Sub-component: TableToolbar  
-function TableToolbar({ total, selectedCount, itemsPerPage, onItemsPerPageChange, onClearSelection }) {
+function TableToolbar({ total, selectedCount, itemsPerPage, onItemsPerPageChange, onClearSelection, onExport }) {
   return (
     <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-700">
       <div>
@@ -278,13 +293,23 @@ function TableToolbar({ total, selectedCount, itemsPerPage, onItemsPerPageChange
             Clear selection
           </button>
         )}
+
+        {/* export button */}
+        <button
+        onClick={onExport}
+        className='flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-green-500 hover:bg-green-600 text-white font-medium transition-colors '
+        >
+          <FiDownload size={12} />
+          {selectedCount>0 ? `Export ${selectedCount} line`: 'Export CSV'}
+        </button>
+
         {/* Items per page */}
         <select
           value={itemsPerPage}
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
           className="text-xs px-2 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 focus:outline-none"
         >
-          <option value={10}>10 / page</option>
+          <option value={10}>15 / page</option>
           <option value={25}>25 / page</option>
           <option value={50}>50 / page</option>
         </select>
