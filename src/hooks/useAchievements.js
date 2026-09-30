@@ -1,36 +1,34 @@
-import { useEffect, useState } from "react";
+import { useCallback, useMemo } from "react";
 import useDashboard from "./useDashboard";
 import useLocalStorage from "./useLocalStorage";
 import { ACHIEVEMENTS, checkAchievement } from "../data/achievements";
 
 function useAchievements() {
-    const {state} = useDashboard()
+  const { state } = useDashboard();
 
-    const [seenIds, setSeenIds] = useLocalStorage('seen-achievements', [])
-    
-    const [activeAchievement, setActiveAchievement] = useState(null)
+  const [seenIds, setSeenIds] = useLocalStorage("seen-achievements", []);
 
-    useEffect(() => {
-        if (state.projects.length === 0) return 
+  // Diturunkan saat render, bukan lewat setState di dalam effect.
+  // Setelah di-dismiss, id-nya masuk seenIds lalu `find` lanjut ke
+  // achievement berikutnya (bisa null kalau sudah habis).
+  const activeAchievement = useMemo(() => {
+    if (state.projects.length === 0) return null;
 
-        // check all achievements, search newly unlocked and not seen
-        const newUnlocked = ACHIEVEMENTS.find(
-            (a) => !seenIds.includes(a.id) && checkAchievement(a.id, state)
-        )
+    return (
+      ACHIEVEMENTS.find(
+        (a) => !seenIds.includes(a.id) && checkAchievement(a.id, state),
+      ) ?? null
+    );
+  }, [state, seenIds]);
 
-        if (newUnlocked && !activeAchievement) {
-            setActiveAchievement(newUnlocked)
-        }
-    }, [state.revenue, state.projects, seenIds, activeAchievement])
+  const dismissAchievement = useCallback(() => {
+    setSeenIds((prev) => [
+      ...prev,
+      ...(activeAchievement ? [activeAchievement.id] : []),
+    ]);
+  }, [activeAchievement, setSeenIds]);
 
-    // called when user dismiss or auto-dismiss
-    const dismissAchievement = () => {
-        if (activeAchievement) {
-            setSeenIds((prev) => [...prev, activeAchievement.id])
-            setActiveAchievement(null)
-        }
-    }
-    return {activeAchievement, dismissAchievement}  
+  return { activeAchievement, dismissAchievement };
 }
 
-export default useAchievements
+export default useAchievements;
