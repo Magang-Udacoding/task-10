@@ -162,7 +162,7 @@ function ProjectTable() {
         }}
       />
       {/*   Table   */}
-      <div className="overflow-auto max-h-96 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 scrollbar-track-transparent">
+      <div className="scrollbar-slim max-h-96 overflow-auto">
         <table className="w-full text-sm">
           <thead className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700">
             <tr>

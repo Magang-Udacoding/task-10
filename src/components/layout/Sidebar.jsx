@@ -66,7 +66,7 @@ function Sidebar({ isOpen, onClose }) {
         </button>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
+      <nav className="scrollbar-slim flex-1 space-y-1 overflow-y-auto px-3 py-4">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = activeNav === item.id;

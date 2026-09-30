@@ -2,3 +2,43 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Scrollbar slim — utility Tailwind (bukan CSS global) yang mencakup
+   Firefox/Chrome lewat properti standar dan Safari/WebKit lewat
+   ::-webkit-scrollbar. Pakai: `scrollbar-slim` */
+@utility scrollbar-slim {
+  /* Firefox / Chrome 121+ */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-slate-300) transparent;
+
+  /* Safari / WebKit */
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-slate-300);
+    border-radius: 9999px;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--color-slate-400);
+  }
+
+  &:where(.dark, .dark *) {
+    scrollbar-color: var(--color-slate-700) transparent;
+  }
+
+  &:where(.dark, .dark *)::-webkit-scrollbar-thumb {
+    background-color: var(--color-slate-700);
+  }
+
+  &:where(.dark, .dark *):hover::-webkit-scrollbar-thumb {
+    background-color: var(--color-slate-600);
+  }
+}
