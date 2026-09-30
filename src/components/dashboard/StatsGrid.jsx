@@ -23,7 +23,7 @@ function StatsGrid() {
       icon: FiDollarSign,
       label: "Total Revenue",
       value: formatRevenue(state.revenue),
-      sub: "from completed projects",
+      sub: "update every 30s",
       color: "green",
       trend: 12,
     },

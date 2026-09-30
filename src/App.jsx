@@ -5,6 +5,7 @@ import { mockProjects, mockClients, mockRevenueData, mockNotifications } from '.
 import Navbar from './components/layout/Navbar'
 import Sidebar from './components/layout/Sidebar'
 import Dashboard from './pages/Dashboard'
+import useRevenueSync from './hooks/useRevenueSync.js'
 
 function App() {
   const { state, dispatch } = useDashboard()
@@ -29,6 +30,8 @@ function App() {
       : root.classList.remove('dark')
   }, [state.theme])
 
+  useRevenueSync(30_000)
+  
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       <Sidebar />
