@@ -1,3 +1,4 @@
+import React from "react"
 import { FaArrowDown, FaArrowUp } from "react-icons/fa"
 
 const COLOR_MAP = {
@@ -61,4 +62,4 @@ function StatsCard({icon: Icon, label, value, sub, color = 'blue', trend}) {
     )
 }
 
-export default StatsCard
+export default React.memo(StatsCard)

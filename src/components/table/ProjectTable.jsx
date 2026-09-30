@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { FiChevronUp, FiChevronDown, FiDownload } from 'react-icons/fi'
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import useDashboard from '../../hooks/useDashboard'
@@ -85,14 +85,17 @@ function ProjectTable() {
   //   2. Sort the filtered result
   const { sortedData, sortKey, sortDirection, handleSort } =
     useSort(filteredProjects)
+
   //   3. Paginate the sorted result
   const { currentData, currentPage, totalPage, nextPage, prevPage, goToPage } =
     usePagination(sortedData, itemsPerPage)
+
   //   Row selection    ─
   const isAllSelected =
     currentData.length > 0 &&
     currentData.every((p) => selectedIds.includes(p.id))
-  const toggleSelectAll = () => {
+
+  const toggleSelectAll = useCallback(() => {
     if (isAllSelected) {
       setSelectedIds((prev) =>
         prev.filter((id) => !currentData.find((p) => p.id === id))
@@ -101,24 +104,25 @@ function ProjectTable() {
       const newIds = currentData.map((p) => p.id)
       setSelectedIds((prev) => [...new Set([...prev, ...newIds])])
     }
-  }
-  const toggleSelectOne = (id) => {
+  }, [isAllSelected, currentData])
+
+  const toggleSelectOne = useCallback((id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     )
-  }
+  }, [])
 
-  // export csv handler
-  const handleExport = () => {
-    const dataToExport = selectedIds.length>0
+  const handleExport = useCallback(() => {
+    const dataToExport = selectedIds.length > 0
       ? filteredProjects.filter((p) => selectedIds.includes(p.id))
       : filteredProjects
 
-      exportToCSV(
-        transformProjectsForExport(dataToExport),
-        'freelance-projects'
-      )
-  }
+    exportToCSV(
+      transformProjectsForExport(dataToExport),
+      'freelance-projects'
+    )
+  }, [selectedIds, filteredProjects])
+
 
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">

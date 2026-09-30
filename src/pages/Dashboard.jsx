@@ -1,10 +1,11 @@
 // src/pages/Dashboard.jsx
 import StatsGrid from '../components/dashboard/StatsGrid'
-import RevenueLineChart from '../components/charts/RevenueLineChart'
-import StatusStackedChart from '../components/charts/StatusStackedChart'
-import ClientDonutChart from '../components/charts/ClientDonutChart'
-import SkillsRadarChart from '../components/charts/SkillsRadarChart'
+const RevenueLineChart   = lazy(() => import('../components/charts/RevenueLineChart'))
+const StatusStackedChart = lazy(() => import('../components/charts/StatusStackedChart'))
+const ClientDonutChart   = lazy(() => import('../components/charts/ClientDonutChart'))
+const SkillsRadarChart   = lazy(() => import('../components/charts/SkillsRadarChart'))
 import ProjectTable from '../components/table/ProjectTable'
+import { lazy, Suspense } from 'react'
 
 function Dashboard() {
   return (
@@ -20,18 +21,36 @@ function Dashboard() {
 
       <StatsGrid />
 
+      <Suspense fallback={<ChartSkeleton/>}>
       <RevenueLineChart />
+      </Suspense>
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <StatusStackedChart />
-        <ClientDonutChart />
-        <SkillsRadarChart />
+        <Suspense fallback={<ChartSkeleton />}>
+          <StatusStackedChart />
+        </Suspense>
+        <Suspense fallback={<ChartSkeleton />}>
+          <ClientDonutChart />
+        </Suspense>
+        <Suspense fallback={<ChartSkeleton />}>
+          <SkillsRadarChart />
+        </Suspense>
       </div>
 
       <ProjectTable />
 
     </div>
   )
+  function ChartSkeleton() {
+    return(
+      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 animate-pulse">
+      <div className="h-4 w-40 bg-slate-200 dark:bg-slate-700 rounded mb-1" />
+      <div className="h-3 w-24 bg-slate-200 dark:bg-slate-700 rounded mb-4" />
+      <div className="h-64 bg-slate-100 dark:bg-slate-700/50 rounded-lg" />
+    </div>
+    )
+  }
 }
 
 export default Dashboard
