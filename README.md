@@ -108,5 +108,3 @@ npm run preview      # http://localhost:4173
 **FailHy** — Frontend Developer  
 - GitHub: [FailHy](https://github.com/FailHy)
 - Repository: [Task 10 - Magang Udacoding](https://github.com/Magang-Udacoding/task-10)
-
-> _"Di-build dengan standar performa dan praktik terbaik React Modern."_
