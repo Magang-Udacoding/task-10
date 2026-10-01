@@ -1,5 +1,5 @@
-import { useMemo, useState, useCallback, Fragment } from "react";
-import { FiChevronUp, FiChevronDown, FiDownload, FiTrash2, FiColumns } from "react-icons/fi";
+import React, { useMemo, useState, useCallback, Fragment, memo } from "react";
+import { FiChevronUp, FiChevronDown, FiDownload, FiTrash2, FiColumns, FiStar } from "react-icons/fi";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import useDashboard from "../../hooks/useDashboard";
 import useSort from "../../hooks/useSort";
@@ -8,6 +8,7 @@ import { formatCurrency, formatShortDate } from "../../utils/dateUtils.js";
 import { FaArrowsUpDown } from "react-icons/fa6";
 import {
   exportToCSV,
+  exportToExcel,
   transformProjectsForExport,
 } from "../../utils/exportUtils.js";
 
@@ -71,7 +72,7 @@ function ProjectTable() {
 
   const [selectedIds, setSelectedIds] = useState([]);
 
-  const [itemsPerPage, setItemsPerPage] = useState(15);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Filter from the navbar search
   const filteredProjects = useMemo(() => {
@@ -87,7 +88,7 @@ function ProjectTable() {
   }, [state.projects, state.filter]);
 
   //   2. Sort the filtered result
-  const { sortedData, sortKey, sortDirection, handleSort } =
+  const { sortedData, sortConfig, handleSort } =
     useSort(filteredProjects);
 
   //   3. Paginate the sorted result
@@ -116,13 +117,26 @@ function ProjectTable() {
     );
   }, []);
 
-  const handleExport = useCallback(() => {
+  const toggleFavorite = useCallback((id) => {
+    dispatch({ type: "TOGGLE_FAVORITE", payload: id });
+  }, [dispatch]);
+
+  const handleExportCSV = useCallback(() => {
     const dataToExport =
       selectedIds.length > 0
         ? filteredProjects.filter((p) => selectedIds.includes(p.id))
         : filteredProjects;
 
     exportToCSV(transformProjectsForExport(dataToExport), "freelance-projects");
+  }, [selectedIds, filteredProjects]);
+
+  const handleExportExcel = useCallback(() => {
+    const dataToExport =
+      selectedIds.length > 0
+        ? filteredProjects.filter((p) => selectedIds.includes(p.id))
+        : filteredProjects;
+
+    exportToExcel(transformProjectsForExport(dataToExport), "freelance-projects");
   }, [selectedIds, filteredProjects]);
 
   // State: kolom mana yang sedang ditampilkan
@@ -150,7 +164,8 @@ function ProjectTable() {
           setSelectedIds([]);
         }}
         onClearSelection={() => setSelectedIds([])}
-        onExport={handleExport}
+        onExportCSV={handleExportCSV}
+        onExportExcel={handleExportExcel}
         columns={COLUMNS}
         visibleColumns={visibleColumns}
         onToggleColumn={toggleColumn}
@@ -164,6 +179,7 @@ function ProjectTable() {
         <table className="w-full text-sm">
           <thead className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700">
             <tr>
+              <th className="w-8 px-4 py-3"></th>
               {/* Checkbox select all */}
               <th className="w-10 px-4 py-3">
                 <input
@@ -177,8 +193,7 @@ function ProjectTable() {
                 <SortableHeader
                   key={col.key}
                   column={col}
-                  sortKey={sortKey}
-                  sortDirection={sortDirection}
+                  sortConfig={sortConfig}
                   onSort={handleSort}
                 />
               ))}
@@ -188,7 +203,7 @@ function ProjectTable() {
             {currentData.length === 0 ? (
               <tr>
                 <td
-                  colSpan={activeColumns.length + 1}
+                  colSpan={activeColumns.length + 2}
                   className="py-16 text-center text-slate-400 dark:text-slate-500"
                 >
                   No projects match your search
@@ -200,7 +215,9 @@ function ProjectTable() {
                   key={project.id}
                   project={project}
                   isSelected={selectedIds.includes(project.id)}
+                  isFavorite={state.favorites.includes(project.id)}
                   onToggle={() => toggleSelectOne(project.id)}
+                  onToggleFavorite={() => toggleFavorite(project.id)}
                   activeColumns={activeColumns}
                 />
               ))
@@ -221,9 +238,13 @@ function ProjectTable() {
     </div>
   );
 }
+
 //   Sub-component: SortableHeader
-function SortableHeader({ column, sortKey, sortDirection, onSort }) {
-  const isActive = sortKey === column.key;
+function SortableHeader({ column, sortConfig, onSort }) {
+  const sortItemIndex = sortConfig.findIndex((item) => item.key === column.key);
+  const isActive = sortItemIndex >= 0;
+  const sortDirection = isActive ? sortConfig[sortItemIndex].direction : null;
+
   return (
     <th
       className={`px-4 py-3 text-left font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap ${
@@ -231,17 +252,22 @@ function SortableHeader({ column, sortKey, sortDirection, onSort }) {
           ? "cursor-pointer select-none hover:text-slate-900 dark:hover:text-slate-100"
           : ""
       }`}
-      onClick={() => column.sortable && onSort(column.key)}
+      onClick={(e) => column.sortable && onSort(column.key, e.shiftKey)}
     >
       <span className="flex items-center gap-1">
         {column.label}
         {column.sortable &&
           (isActive ? (
-            sortDirection === "asc" ? (
-              <FiChevronUp size={14} className="text-blue-500" />
-            ) : (
-              <FiChevronDown size={14} className="text-blue-500" />
-            )
+            <span className="flex items-center">
+              {sortDirection === "asc" ? (
+                <FiChevronUp size={14} className="text-blue-500" />
+              ) : (
+                <FiChevronDown size={14} className="text-blue-500" />
+              )}
+              {sortConfig.length > 1 && (
+                <span className="text-[10px] ml-0.5 text-blue-500 font-bold">{sortItemIndex + 1}</span>
+              )}
+            </span>
           ) : (
             <FaArrowsUpDown size={14} className="opacity-30" />
           ))}
@@ -249,8 +275,9 @@ function SortableHeader({ column, sortKey, sortDirection, onSort }) {
     </th>
   );
 }
+
 //   Sub-component: ProjectRow
-function ProjectRow({ project, isSelected, onToggle, activeColumns }) {
+const ProjectRow = memo(function ProjectRow({ project, isSelected, isFavorite, onToggle, onToggleFavorite, activeColumns }) {
   const cellMap = {
     name: (
       <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-100 max-w-[200px]">
@@ -310,6 +337,14 @@ function ProjectRow({ project, isSelected, onToggle, activeColumns }) {
       }`}
     >
       <td className="px-4 py-3">
+        <button 
+          onClick={onToggleFavorite}
+          className={`hover:scale-110 transition-transform ${isFavorite ? 'text-yellow-400' : 'text-slate-300 dark:text-slate-600 hover:text-yellow-400'}`}
+        >
+          <FiStar size={16} className={isFavorite ? 'fill-current' : ''} />
+        </button>
+      </td>
+      <td className="px-4 py-3">
         <input
           type="checkbox"
           checked={isSelected}
@@ -322,12 +357,12 @@ function ProjectRow({ project, isSelected, onToggle, activeColumns }) {
       ))}
     </tr>
   );
-}
+});
 //   Sub-component: TableToolbar
 function TableToolbar({
   total, selectedCount, itemsPerPage,
   onItemsPerPageChange, onClearSelection,
-  onExport, columns, visibleColumns,
+  onExportCSV, onExportExcel, columns, visibleColumns,
   onToggleColumn, onBulkDelete
 }) {
   const [showColumns, setShowColumns] = useState(false);
@@ -402,13 +437,22 @@ function TableToolbar({
           )}
         </div>
         {/* Export */}
-        <button
-          onClick={onExport}
-          className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-green-500 hover:bg-green-600 text-white font-medium transition-colors"
-        >
-          <FiDownload size={13} />
-          {selectedCount > 0 ? `Export ${selectedCount} baris` : 'Export CSV'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onExportCSV}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-green-500 hover:bg-green-600 text-white font-medium transition-colors"
+          >
+            <FiDownload size={13} />
+            {selectedCount > 0 ? `CSV (${selectedCount})` : 'Export CSV'}
+          </button>
+          <button
+            onClick={onExportExcel}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium transition-colors"
+          >
+            <FiDownload size={13} />
+            {selectedCount > 0 ? `Excel (${selectedCount})` : 'Export Excel'}
+          </button>
+        </div>
         {/* Items per page */}
         <select
           value={itemsPerPage}
