@@ -1,4 +1,3 @@
-// src/components/layout/Sidebar.jsx
 import { useState } from "react";
 import {
   FiChevronDown,
@@ -7,6 +6,7 @@ import {
   FiGrid,
   FiX,
 } from "react-icons/fi";
+import { FaUser, FaProjectDiagram } from "react-icons/fa";
 import useDashboard from "../../hooks/useDashboard";
 
 // Hanya Dashboard — Projects/Clients/Favourites belum ada routing,
@@ -23,11 +23,12 @@ function Sidebar({ isOpen, onClose }) {
   const { state } = useDashboard();
 
   const [activeNav, setActiveNav] = useState("dashboard");
+  const [isClientsOpen, setIsClientsOpen] = useState(true);
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
 
   const recentProjects = [...state.projects]
     .sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
-    .slice(0, 5);
+    .slice(0, 10);
 
   return (
     <aside
@@ -84,54 +85,75 @@ function Sidebar({ isOpen, onClose }) {
           );
         })}
 
-        <div className="px-3 pt-4 pb-2">
-          <p className="text-xs font-semibold tracking-wider text-slate-400 uppercase dark:text-slate-500">
-            Klien Aktif
-          </p>
+        {/* ACCORDION: CLIENTS */}
+        <div className="pt-4 pb-1">
+          <button
+            onClick={() => setIsClientsOpen((prev) => !prev)}
+            className="flex w-full items-center justify-between px-3 text-xs font-semibold tracking-wider text-slate-400 uppercase transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
+          >
+            <div className="flex items-center gap-2">
+              <FaUser size={12} />
+              <span>List Client</span>
+            </div>
+            {isClientsOpen ? (
+              <FiChevronDown size={14} />
+            ) : (
+              <FiChevronRight size={14} />
+            )}
+          </button>
         </div>
 
-        {state.clients
-          .filter((c) => c.status === "active")
-          .map((client) => (
-            <div
-              key={client.id}
-              className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100"
-            >
-              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/40 dark:text-blue-400">
-                {client.name.charAt(0)}
-              </div>
-              <span className="truncate">{client.name}</span>
-            </div>
-          ))}
+        {isClientsOpen && (
+          <div className="space-y-1 mt-1">
+            {state.clients.map((client) => {
+              const statusColor = client.status === 'active' 
+                ? 'text-green-500' 
+                : 'text-slate-400 dark:text-slate-500';
+              return (
+                <div
+                  key={client.id}
+                  className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-100"
+                >
+                  <FiCircle size={10} className={`shrink-0 ${statusColor}`} fill="currentColor" />
+                  <span className="truncate">{client.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
+        {/* ACCORDION: PROJECTS */}
         <div className="pt-4 pb-1">
           <button
             onClick={() => setIsProjectsOpen((prev) => !prev)}
             className="flex w-full items-center justify-between px-3 text-xs font-semibold tracking-wider text-slate-400 uppercase transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
           >
-            <span>Recent Projects</span>
+            <div className="flex items-center gap-2">
+              <FaProjectDiagram size={12} />
+              <span>10 Project Terbaru</span>
+            </div>
             {isProjectsOpen ? (
-              <FiChevronDown size={12} />
+              <FiChevronDown size={14} />
             ) : (
-              <FiChevronRight size={12} />
+              <FiChevronRight size={14} />
             )}
           </button>
         </div>
 
         {isProjectsOpen && (
-          <div className="space-y-1">
-            {recentProjects.map((project) => (
-              <div
-                key={project.id}
-                className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100"
-              >
-                <FiCircle
-                  size={8}
-                  className={`shrink-0 ${STATUS_COLOR[project.status] ?? ""}`}
-                />
-                <span className="truncate">{project.name}</span>
-              </div>
-            ))}
+          <div className="space-y-1 mt-1">
+            {recentProjects.map((project) => {
+              const statusColor = STATUS_COLOR[project.status] || 'text-slate-400 dark:text-slate-500';
+              return (
+                <div
+                  key={project.id}
+                  className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-100"
+                >
+                  <FiCircle size={10} className={`shrink-0 ${statusColor}`} fill="currentColor" />
+                  <span className="truncate">{project.name}</span>
+                </div>
+              );
+            })}
           </div>
         )}
       </nav>
