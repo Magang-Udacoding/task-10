@@ -48,6 +48,16 @@ function StatusStackedChart() {
         grid: { color: isDark ? '#1e293b' : '#f1f5f9' },
       },
     },
+    // Requirement #36: Animation stagger per bar
+    animation: {
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default') {
+          delay = context.dataIndex * 150 + context.datasetIndex * 100;
+        }
+        return delay;
+      },
+    },
   }
 
   return (
