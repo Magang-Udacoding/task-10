@@ -38,6 +38,10 @@ export const CHART_COLORS = {
   purple: "#a855f7",
   pink: "#ec4899",
   cyan: "#06b6d4",
+  teal: "#14b8a6",
+  emerald: "#10b981",
+  amber: "#f59e0b",
+  rose: "#f43f5e",
 };
 
 export const CLIENT_COLORS = [
@@ -49,36 +53,79 @@ export const CLIENT_COLORS = [
   "#a855f7",
   "#ec4899",
   "#06b6d4",
+  "#14b8a6",
+  "#10b981",
+  "#f59e0b",
+  "#f43f5e",
 ];
 
-export const buildRevenueChartData = (revenueData) => ({
-  labels: revenueData.map((d) => formatShortDate(d.date)),
-  datasets: [
-    {
-      label: "Actual",
-      data: revenueData.map((d) => d.actual),
-      borderColor: CHART_COLORS.blue,
-      backgroundColor: `${CHART_COLORS.blue}1a`, // hex opacity 10%
-      tension: 0.4, // 0 = straight line, 1 = very curved (Bezier)
-      fill: true,
-      pointRadius: 3,
-      pointHoverRadius: 6,
-      pointBackgroundColor: CHART_COLORS.blue,
-    },
-    {
-      label: "Target",
-      data: revenueData.map((d) => d.target),
-      borderColor: CHART_COLORS.indigo,
-      backgroundColor: "transparent",
-      tension: 0.4,
-      borderDash: [6, 4], // dashed line
-      fill: false,
-      pointRadius: 0, // points are not displayed
-      pointHoverRadius: 5,
-      borderWidth: 2,
-    },
-  ],
-});
+import { startOfWeek, startOfMonth, format } from 'date-fns';
+
+export const buildRevenueChartData = (revenueData, timeframe = 'daily') => {
+  // Grouping logic
+  const groupedData = {};
+
+  revenueData.forEach((d) => {
+    let groupKey = d.date; // daily default
+    const dateObj = new Date(d.date);
+
+    if (timeframe === 'weekly') {
+      groupKey = format(startOfWeek(dateObj, { weekStartsOn: 1 }), 'yyyy-MM-dd');
+    } else if (timeframe === 'monthly') {
+      groupKey = format(startOfMonth(dateObj), 'yyyy-MM-dd');
+    }
+
+    if (!groupedData[groupKey]) {
+      groupedData[groupKey] = { date: groupKey, actual: 0, target: 0, count: 0 };
+    }
+    
+    groupedData[groupKey].actual += d.actual;
+    groupedData[groupKey].target += d.target;
+    groupedData[groupKey].count += 1;
+  });
+
+  const sortedKeys = Object.keys(groupedData).sort();
+  
+  // For weekly/monthly, we might want to average the target instead of sum, 
+  // or just sum them. Assuming sum for both actual and target.
+  const labels = sortedKeys.map((key) => {
+    if (timeframe === 'monthly') return format(new Date(key), 'MMM yyyy');
+    if (timeframe === 'weekly') return `Week of ${formatShortDate(key)}`;
+    return formatShortDate(key);
+  });
+
+  const actualData = sortedKeys.map((key) => groupedData[key].actual);
+  const targetData = sortedKeys.map((key) => groupedData[key].target);
+
+  return {
+    labels,
+    datasets: [
+      {
+        label: "Actual",
+        data: actualData,
+        borderColor: CHART_COLORS.blue,
+        backgroundColor: `${CHART_COLORS.blue}1a`, // hex opacity 10%
+        tension: 0.4, // 0 = straight line, 1 = very curved (Bezier)
+        fill: true,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+        pointBackgroundColor: CHART_COLORS.blue,
+      },
+      {
+        label: "Target",
+        data: targetData,
+        borderColor: CHART_COLORS.indigo,
+        backgroundColor: "transparent",
+        tension: 0.4,
+        borderDash: [6, 4], // dashed line
+        fill: false,
+        pointRadius: 0, // points are not displayed
+        pointHoverRadius: 5,
+        borderWidth: 2,
+      },
+    ],
+  };
+};
 
 export const buildStatusChartData = (projects) => {
   const completed = projects.filter((p) => p.status === 'completed').length

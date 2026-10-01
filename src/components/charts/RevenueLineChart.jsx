@@ -1,15 +1,20 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import useDashboard from '../../hooks/useDashboard'
-import { mockRevenueData } from '../../data/Mock.js'
 import { buildRevenueChartData, revenueTooltipPlugin } from '../../utils/chartUtils.js'
 
 function RevenueLineChart() {
   const { state } = useDashboard()
   const isDark    = state.theme === 'dark'
   const chartRef  = useRef(null)
+  const [timeframe, setTimeframe] = useState('daily')
 
-  const chartData = useMemo(() => buildRevenueChartData(mockRevenueData), [])
+  // Baca histori dari context, bukan mock statis — grafik ikut bergerak
+  // setiap kali useRevenueSync memperbarui revenue.
+  const chartData = useMemo(
+    () => buildRevenueChartData(state.revenueHistory, timeframe),
+    [state.revenueHistory, timeframe]
+  )
 
   const handleResetZoom = () => {
     if (chartRef.current) chartRef.current.resetZoom()
@@ -82,15 +87,29 @@ function RevenueLineChart() {
             Revenue — Last 30 Days
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Scroll to zoom · Drag to pan
+            {state.revenueHistory.length > 0
+              ? 'Scroll to zoom · Drag to pan'
+              : 'Memuat data revenue…'}
           </p>
         </div>
-        <button
-          onClick={handleResetZoom}
-          className="text-xs px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-        >
-          Reset Zoom
-        </button>
+        <div className="flex gap-2 items-center">
+          <select
+            value={timeframe}
+            onChange={(e) => setTimeframe(e.target.value)}
+            className="text-xs px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 focus:outline-none"
+          >
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+          <button
+            onClick={handleResetZoom}
+            disabled={state.revenueHistory.length === 0}
+            className="text-xs px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Reset Zoom
+          </button>
+        </div>
       </div>
       <div className="h-64">
         <Line ref={chartRef} data={chartData} options={options} />

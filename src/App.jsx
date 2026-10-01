@@ -1,7 +1,7 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
 import useDashboard from "./hooks/useDashboard";
-import { mockProjects, mockClients, mockNotifications } from "./data/Mock.js";
+import { mockProjects, mockClients, mockNotifications, mockRevenueData } from "./data/Mock.js";
 import Navbar from "./components/layout/Navbar";
 import Sidebar from "./components/layout/Sidebar";
 import Dashboard from "./pages/Dashboard";
@@ -27,6 +27,9 @@ function App() {
       .filter((p) => p.status === "completed")
       .reduce((sum, p) => sum + p.revenue, 0);
     dispatch({ type: "SET_REVENUE", payload: totalRevenue });
+
+    // Seed histori 30 hari terakhir supaya grafik revenue punya garis awal
+    dispatch({ type: "SET_REVENUE_HISTORY", payload: mockRevenueData });
   }, [dispatch]);
 
   // Sync the theme to the <html> class

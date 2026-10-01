@@ -33,17 +33,19 @@ function ClientDonutChart() {
     },
     plugins: {
       legend: {
-        position: 'right',
+        position: 'bottom',
+        align: 'center',
         labels: {
           usePointStyle: true,
-          padding: 12,
+          boxWidth: 8,
+          padding: 15,
           color: labelColor,
-          font: { size: 11 },
+          font: { size: 10 },
           // Truncate the client name if it is too long in the legend
           generateLabels: (chart) => {
             const datasets = chart.data.datasets
             return chart.data.labels.map((label, i) => ({
-              text: label.length > 18 ? label.slice(0, 18) + '…' : label,
+              text: label.length > 15 ? label.slice(0, 15) + '…' : label,
               fillStyle: datasets[0].backgroundColor[i],
               strokeStyle: datasets[0].backgroundColor[i],
               fontColor: labelColor,
