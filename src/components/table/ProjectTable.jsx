@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useState, useCallback, Fragment, memo } from "react";
 import { FiChevronUp, FiChevronDown, FiDownload, FiTrash2, FiColumns, FiStar } from "react-icons/fi";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -8,7 +9,6 @@ import { formatCurrency, formatShortDate } from "../../utils/dateUtils.js";
 import { FaArrowsUpDown } from "react-icons/fa6";
 import {
   exportToCSV,
-  exportToExcel,
   transformProjectsForExport,
 } from "../../utils/exportUtils.js";
 
@@ -130,15 +130,6 @@ function ProjectTable() {
     exportToCSV(transformProjectsForExport(dataToExport), "freelance-projects");
   }, [selectedIds, filteredProjects]);
 
-  const handleExportExcel = useCallback(() => {
-    const dataToExport =
-      selectedIds.length > 0
-        ? filteredProjects.filter((p) => selectedIds.includes(p.id))
-        : filteredProjects;
-
-    exportToExcel(transformProjectsForExport(dataToExport), "freelance-projects");
-  }, [selectedIds, filteredProjects]);
-
   // State: kolom mana yang sedang ditampilkan
   // Lazy initializer -> object dibangun sekali saat mount, bukan tiap render
   const [visibleColumns, setVisibleColumns] = useState(() =>
@@ -165,7 +156,6 @@ function ProjectTable() {
         }}
         onClearSelection={() => setSelectedIds([])}
         onExportCSV={handleExportCSV}
-        onExportExcel={handleExportExcel}
         columns={COLUMNS}
         visibleColumns={visibleColumns}
         onToggleColumn={toggleColumn}
@@ -362,7 +352,7 @@ const ProjectRow = memo(function ProjectRow({ project, isSelected, isFavorite, o
 function TableToolbar({
   total, selectedCount, itemsPerPage,
   onItemsPerPageChange, onClearSelection,
-  onExportCSV, onExportExcel, columns, visibleColumns,
+  onExportCSV, columns, visibleColumns,
   onToggleColumn, onBulkDelete
 }) {
   const [showColumns, setShowColumns] = useState(false);
@@ -444,13 +434,6 @@ function TableToolbar({
           >
             <FiDownload size={13} />
             {selectedCount > 0 ? `CSV (${selectedCount})` : 'Export CSV'}
-          </button>
-          <button
-            onClick={onExportExcel}
-            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium transition-colors"
-          >
-            <FiDownload size={13} />
-            {selectedCount > 0 ? `Excel (${selectedCount})` : 'Export Excel'}
           </button>
         </div>
         {/* Items per page */}
