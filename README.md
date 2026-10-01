@@ -1,5 +1,7 @@
 # 🚀 FreelancePro Dashboard (Task 10)
 
+## Vercel: [FreelanceProDashboard](https://freelanceprodashboard.vercel.app/)
+
 > Advanced React Dashboard teroptimasi untuk _tracking project_ dan _revenue_ bagi Freelance Developer. Didesain secara khusus dan mendetail untuk memenuhi seluruh **Technical Audit Requirements Task 10 Magang Udacoding**.
 
 ![Hero](src/assets/hero.png)
