@@ -9,11 +9,9 @@ const COLOR_MAP = {
 }
 
 function StatsCard({icon: Icon, label, value, sub, color = 'blue', trend}) {
-    const isPositive = trend >= 0
-
     return(
         <div
-        className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 flex items-start gap-4"
+        className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 flex items-start gap-4 h-full w-full"
         >
             <div
             className={`p-3 rounded-lg shrink-0 ${COLOR_MAP[color]}`}
@@ -38,18 +36,18 @@ function StatsCard({icon: Icon, label, value, sub, color = 'blue', trend}) {
                     {value}
                 </p>
 
-                {trend !== undefined && (
+                {trend !== undefined && trend !== null && (
                     <p
-                    className={`text-xs mt-1 font-medium ${isPositive
+                    className={`text-xs mt-1 font-medium ${trend >= 0
                         ? 'text-green-600 dark:text-green-400'
                         : 'text-red-500 dark:text-red-400'
                     }`}
                     >
-                        {isPositive ? <FaArrowUp size={12}/> : <FaArrowDown size={12}/>} {Math.abs(trend)}% {sub}
+                        {trend >= 0 ? <FaArrowUp size={12}/> : <FaArrowDown size={12}/>} {Math.abs(trend)}% vs 7 hari sebelumnya
                     </p>
                 )}
 
-                {trend === undefined && sub && (
+                {sub && (
                     <p
                     className="text-xs mt-1 text-slate-400 dark:text-slate-500"
                     >
