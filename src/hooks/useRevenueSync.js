@@ -27,15 +27,17 @@ function useRevenueSync(interval = 30_000) {
                 payload: updatedRevenue
             })
 
+            // Titik baru untuk grafik revenue, supaya garisnya bergerak
+            // seiring perubahan revenue (bukan data beku)
             dispatch({
-                type: 'ADD_NOTIFICATION',
+                type: 'PUSH_REVENUE_POINT',
                 payload: {
-                    id: `rev-${Date.now()}`,
-                    message: `Revenue Updated: Rp${(updatedRevenue / 1_000_000).toFixed(1)}M`,
-                    isRead: false,
-                    createdAt: new Date().toISOString()
+                    date: new Date().toISOString().slice(0, 10),
+                    actual: updatedRevenue,
                 }
             })
+
+
         }
 
         const intervalId = setInterval(syncRevenue, interval)
