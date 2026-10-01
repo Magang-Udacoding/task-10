@@ -13,6 +13,7 @@ const initState = {
   revenueHistory: [],
   filter: "",
   theme: "dark",
+  favorites: [],
   notifications: [
     { id: "n1", message: "Anda mendapat pembayaran baru Rp 25.000.000", isRead: false, createdAt: new Date(Date.now() - 3600000).toISOString() },
     { id: "n2", message: "Project E-Commerce Website berhasil diselesaikan", isRead: false, createdAt: new Date(Date.now() - 7200000).toISOString() },
@@ -142,6 +143,16 @@ const dashboardReducer = (state, action) => {
         theme: state.theme === "dark" ? "light" : "dark",
       };
 
+    case "TOGGLE_FAVORITE": {
+      const isFavorite = state.favorites.includes(action.payload);
+      return {
+        ...state,
+        favorites: isFavorite
+          ? state.favorites.filter((id) => id !== action.payload)
+          : [...state.favorites, action.payload],
+      };
+    }
+
     default:
       return state;
   }
@@ -153,9 +164,15 @@ function DashboardProvider({ children }) {
     initState.theme,
   );
 
+  const [storedFavorites, setStoredFavorites] = useLocalStorage(
+    "dashboard-favorites",
+    initState.favorites,
+  );
+
   const initialDashboardState = {
     ...initState,
     theme: storedTheme,
+    favorites: storedFavorites,
   };
 
   const [state, dispatch] = useReducer(dashboardReducer, initialDashboardState);
@@ -163,6 +180,10 @@ function DashboardProvider({ children }) {
   useEffect(() => {
     setStoredTheme(state.theme);
   }, [state.theme, setStoredTheme]);
+
+  useEffect(() => {
+    setStoredFavorites(state.favorites);
+  }, [state.favorites, setStoredFavorites]);
 
   return (
     <DashboardContext.Provider value={{ state, dispatch }}>
