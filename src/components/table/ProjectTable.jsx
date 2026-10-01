@@ -59,7 +59,7 @@ const STATUS_STYLE = {
     "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400",
   pending:
     "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400",
-  onHold: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400",
+  "on-hold": "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400",
 };
 
 const PRIORITY_STYLE = {
@@ -69,7 +69,7 @@ const PRIORITY_STYLE = {
 };
 
 function ProjectTable() {
-  const { state } = useDashboard();
+  const { state, dispatch } = useDashboard();
 
   const [selectedIds, setSelectedIds] = useState([]);
 
@@ -157,7 +157,7 @@ function ProjectTable() {
         visibleColumns={visibleColumns}
         onToggleColumn={toggleColumn}
         onBulkDelete={() => {
-          alert(`${selectedIds.length} deleted projects (simulation)`);
+          dispatch({ type: "DELETE_PROJECTS", payload: selectedIds });
           setSelectedIds([]);
         }}
       />
