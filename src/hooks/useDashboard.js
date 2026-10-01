@@ -2,7 +2,11 @@ import { useContext } from "react";
 import DashboardContext from "../context/DashboardContext";
 
 function useDashboard() {
-    return useContext(DashboardContext)
+    const context = useContext(DashboardContext);
+    if (!context) {
+        throw new Error("useDashboard must be used within a DashboardProvider");
+    }
+    return context;
 }
 
 export default useDashboard

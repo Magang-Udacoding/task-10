@@ -10,9 +10,11 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
 
-      // File yang tidak di-cache oleh service worker
+      // Service worker HANYA di production. Mengaktifkannya saat dev
+      // membuat SW meng-cache asset lama, sehingga browser menampilkan
+      // versi sebelumnya padahal source sudah berubah.
       devOptions: {
-        enabled: true, // aktifkan SW di development untuk testing
+        enabled: false,
       },
 
       // Manifest — identitas aplikasi PWA
@@ -30,13 +32,13 @@ export default defineConfig({
           {
             src:     '/icon-192.png',
             sizes:   '192x192',
-            type:    'image/png+xml',
+            type:     'image/png',
             purpose: 'any',
           },
           {
             src:     '/icon-512.png',
             sizes:   '512x512',
-            type:    'image/png+xml',
+            type:     'image/png',
             purpose: 'maskable',
           },
         ],
@@ -44,6 +46,10 @@ export default defineConfig({
 
       // Workbox: strategi caching
       workbox: {
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
+        
         // Cache semua asset JS, CSS, HTML
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
 
