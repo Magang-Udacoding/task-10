@@ -47,6 +47,11 @@ function SkillsRadarChart() {
         },
       },
     },
+    // Requirement #43: Animated stroke draw
+    animation: {
+      duration: 2500,
+      easing: 'easeOutQuart',
+    },
   }
 
   return (
