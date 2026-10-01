@@ -70,3 +70,35 @@
   --color-border: var(--color-slate-700);
   --color-ring: var(--color-blue-400);
 }
+
+/* 
+  Requirement #49: Print friendly CSS
+  Hide navbars, sidebars, buttons, and format for A4 printing
+*/
+@media print {
+  body { background-color: white !important; }
+  nav, aside, header, button { display: none !important; }
+  
+  /* Force charts and cards to stack sequentially instead of grid to avoid cut-offs */
+  .grid, .grid-cols-1, .lg\:grid-cols-3, .xl\:grid-cols-4 { 
+    display: block !important; 
+  }
+  
+  /* Avoid page breaks inside cards */
+  .rounded-xl, .bg-white { 
+    border: 1px solid #ccc !important; 
+    box-shadow: none !important; 
+    margin-bottom: 2rem; 
+    page-break-inside: avoid; 
+    background-color: white !important;
+  }
+  
+  /* Ensure table expands fully without scrollbars */
+  .overflow-x-auto, .overflow-y-auto { overflow: visible !important; }
+  
+  /* Force text colors to be dark for ink saving */
+  p, h1, h2, h3, span, td, th { color: #000 !important; }
+  
+  /* Hide the right sidebar completely */
+  aside { display: none !important; }
+}
