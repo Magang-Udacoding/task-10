@@ -42,3 +42,31 @@
     background-color: var(--color-slate-600);
   }
 }
+
+/* 
+  Requirement #55 & #56: 
+  CSS Variables (12+ color tokens) dengan dukungan Light/Dark mode.
+*/
+:root {
+  --color-primary: var(--color-blue-500);
+  --color-secondary: var(--color-slate-500);
+  --color-success: var(--color-green-500);
+  --color-warning: var(--color-yellow-500);
+  --color-danger: var(--color-red-500);
+  --color-info: var(--color-cyan-500);
+  --color-background: var(--color-slate-50);
+  --color-surface: #ffffff;
+  --color-text-main: var(--color-slate-900);
+  --color-text-muted: var(--color-slate-500);
+  --color-border: var(--color-slate-200);
+  --color-ring: var(--color-blue-500);
+}
+
+:where(.dark, .dark *) {
+  --color-background: var(--color-slate-900);
+  --color-surface: var(--color-slate-800);
+  --color-text-main: var(--color-slate-100);
+  --color-text-muted: var(--color-slate-400);
+  --color-border: var(--color-slate-700);
+  --color-ring: var(--color-blue-400);
+}
