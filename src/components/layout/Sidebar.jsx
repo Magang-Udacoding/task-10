@@ -136,15 +136,6 @@ function Sidebar({ isOpen, onClose }) {
         )}
       </nav>
 
-      <div className="border-t border-slate-200 px-6 py-4 dark:border-slate-700">
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          {state.projects.filter((p) => p.status === "completed").length} project
-          selesai
-        </p>
-        <p className="mt-1 text-xs font-semibold text-slate-900 dark:text-slate-100">
-          Rp {(state.revenue / 1_000_000).toFixed(1)}M total revenue
-        </p>
-      </div>
     </aside>
   );
 }

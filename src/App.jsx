@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import AchievementToast from "./components/AchievementToast";
 import useRevenueSync from "./hooks/useRevenueSync.js";
 import useAchievements from "./hooks/useAchievements";
+import RightSidebar from "./components/layout/RightSidebar";
 
 function App() {
   const { state, dispatch } = useDashboard();
@@ -57,12 +58,14 @@ function App() {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      <div className="flex min-h-screen flex-col lg:ml-64">
+      <div className="flex min-h-screen flex-col lg:ml-64 xl:mr-[280px]">
         <Navbar onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
         <main className="flex-1 p-4 md:p-6">
           <Dashboard />
         </main>
       </div>
+
+      <RightSidebar />
 
       <AchievementToast
         achievement={activeAchievement}

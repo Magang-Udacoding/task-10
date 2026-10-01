@@ -3,6 +3,10 @@
 @plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 /* Scrollbar slim — utility Tailwind (bukan CSS global) yang mencakup
    Firefox/Chrome lewat properti standar dan Safari/WebKit lewat
    ::-webkit-scrollbar. Pakai: `scrollbar-slim` */
