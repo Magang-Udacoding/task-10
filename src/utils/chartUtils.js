@@ -51,21 +51,6 @@ export const CLIENT_COLORS = [
   "#06b6d4",
 ];
 
-export const defaultChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: "top",
-      labels: {
-        usePointStyle: true,
-        padding: 16,
-        font: { size: 12 },
-      },
-    },
-  },
-};
-
 export const buildRevenueChartData = (revenueData) => ({
   labels: revenueData.map((d) => formatShortDate(d.date)),
   datasets: [
@@ -153,7 +138,7 @@ export const buildClientChartData = (projects, clients) => {
       borderWidth: 2,
       borderColor: 'transparent',
       hoverBorderColor: '#ffffff',
-      hoverOffset: 8,
+      hoverOffset: 15, // Requirement #37: Hover explode effect
     }],
   }
 }
@@ -180,11 +165,23 @@ export const revenueTooltipPlugin = {
   plugins: {
     tooltip: {
       callbacks: {
-        // Format the value in the tooltip: 5200000 → "Rp 5.2M"
+        // Format the value in the tooltip: 5200000 → "Rp 5.2M (+12%)"
         label: (context) => {
           const value = context.parsed.y
           const label = context.dataset.label
-          return ` ${label}: ${formatCurrency(value)}`
+          let trend = ''
+
+          // Requirement #31: Tooltip custom percentage
+          if (label === 'Actual' && context.dataIndex > 0) {
+            const prevValue = context.dataset.data[context.dataIndex - 1]
+            if (prevValue > 0) {
+              const percent = (((value - prevValue) / prevValue) * 100).toFixed(1)
+              const sign = percent > 0 ? '+' : ''
+              trend = ` (${sign}${percent}%)`
+            }
+          }
+          
+          return ` ${label}: ${formatCurrency(value)}${trend}`
         },
       },
     },
