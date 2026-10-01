@@ -43,6 +43,13 @@ export const mockClients = [
   { id: "c36", name: "Startup Musik Nusantara",        email: "hello@musiknusantara.io",       totalProjects: 3, totalRevenue: 37_000_000,  status: "active"   },
   { id: "c37", name: "PT. Tekstil Adi Busana",         email: "digital@adibusana.co.id",       totalProjects: 4, totalRevenue: 69_000_000,  status: "active"   },
   { id: "c38", name: "CV. Fotografi Momen Indah",      email: "info@momenindah.com",           totalProjects: 2, totalRevenue: 21_000_000,  status: "onHold" },
+
+  // ===== 5 Perusahaan Tambahan =====
+  { id: "c39", name: "PT. Logistik Antar Nusa",        email: "it@logistikantarnusa.co.id",    totalProjects: 5, totalRevenue: 83_500_000,  status: "active"   },
+  { id: "c40", name: "Startup FinPay Indonesia",       email: "dev@finpay.id",                 totalProjects: 6, totalRevenue: 128_000_000, status: "active"   },
+  { id: "c41", name: "CV. Batik Warisan Nusantara",    email: "hello@batikwarisan.id",         totalProjects: 3, totalRevenue: 27_500_000,  status: "active"   },
+  { id: "c42", name: "PT. Solusi Cloud Indonesia",     email: "tech@solusicloud.co.id",        totalProjects: 7, totalRevenue: 165_000_000, status: "active"   },
+  { id: "c43", name: "Startup Tanaman Hidroponik",     email: "info@hidroponik.id",            totalProjects: 2, totalRevenue: 17_500_000,  status: "onHold" },
 ];
 
 export const mockProjects = [
@@ -50,11 +57,11 @@ export const mockProjects = [
   { id: "p2",  name: "Mobile App React Native",      clientId: "c3", client: "Fast Fintech Startup",      revenue: 32_000_000, hours: 210, status: "completed", priority: "high",   startDate: "2025-01-10", endDate: "2025-03-15" },
   { id: "p3",  name: "Landing Page Redesign",        clientId: "c2", client: "CV. Creative Youth",        revenue: 8_500_000,  hours: 60,  status: "completed", priority: "low",    startDate: "2025-02-01", endDate: "2025-02-20" },
   { id: "p4",  name: "REST API Payment Gateway",     clientId: "c3", client: "Fast Fintech Startup",      revenue: 27_000_000, hours: 180, status: "completed", priority: "high",   startDate: "2025-02-15", endDate: "2025-04-10" },
-  { id: "p5",  name: "E-commerce Platform",          clientId: "c7", client: "PT. Modern Retail",         revenue: 24_500_000, hours: 200, status: "onHold",    priority: "medium", startDate: "2025-03-01", endDate: "2025-05-30" },
+  { id: "p5",  name: "E-commerce Platform",          clientId: "c7", client: "PT. Modern Retail",         revenue: 24_500_000, hours: 200, status: "completed",    priority: "medium", startDate: "2025-03-01", endDate: "2025-05-30" },
   { id: "p6",  name: "Logistics Admin Panel",        clientId: "c4", client: "PT. Prima Logistics",       revenue: 19_000_000, hours: 155, status: "completed", priority: "medium", startDate: "2025-03-10", endDate: "2025-04-25" },
-  { id: "p7",  name: "Online LMS System",            clientId: "c5", client: "Smart Learning Edtech",     revenue: 22_000_000, hours: 170, status: "pending",   priority: "high",   startDate: "2025-04-01", endDate: "2025-06-15" },
+  { id: "p7",  name: "Online LMS System",            clientId: "c5", client: "Smart Learning Edtech",     revenue: 22_000_000, hours: 170, status: "completed",   priority: "high",   startDate: "2025-04-01", endDate: "2025-06-15" },
   { id: "p8",  name: "Company Profile Website",      clientId: "c6", client: "CV. Creative Media",        revenue: 12_000_000, hours: 80,  status: "completed", priority: "low",    startDate: "2025-04-05", endDate: "2025-04-30" },
-  { id: "p9",  name: "IoT Dashboard Monitoring",     clientId: "c1", client: "PT. Nusantara Digital",     revenue: 21_000_000, hours: 165, status: "pending",   priority: "high",   startDate: "2025-04-15", endDate: "2025-06-30" },
+  { id: "p9",  name: "IoT Dashboard Monitoring",     clientId: "c1", client: "PT. Nusantara Digital",     revenue: 21_000_000, hours: 165, status: "completed",   priority: "high",   startDate: "2025-04-15", endDate: "2025-06-30" },
   { id: "p10", name: "Point of Sale Application",    clientId: "c7", client: "PT. Modern Retail",         revenue: 15_000_000, hours: 120, status: "completed", priority: "medium", startDate: "2025-05-01", endDate: "2025-06-15" },
   { id: "p11", name: "Platform Crowdfunding",        clientId: "c3", client: "Fast Fintech Startup",      revenue: 38_000_000, hours: 250, status: "onHold",    priority: "high",   startDate: "2025-05-10", endDate: "2025-08-30" },
   { id: "p12", name: "Warehouse Inventory System",   clientId: "c4", client: "PT. Prima Logistics",       revenue: 16_500_000, hours: 130, status: "completed", priority: "medium", startDate: "2025-05-20", endDate: "2025-07-10" },
@@ -71,11 +78,11 @@ export const mockProjects = [
   { id: "p21", name: "Mobile Banking App",           clientId: "c9",  client: "PT. Bank Digital Nusantara",     revenue: 42_000_000, hours: 280, status: "completed", priority: "high",   startDate: "2025-01-15", endDate: "2025-04-20" },
   { id: "p22", name: "Website E-Commerce Kopi",      clientId: "c10", client: "CV. Kopi Kreatif Indonesia",     revenue: 14_000_000, hours: 95,  status: "completed", priority: "medium", startDate: "2025-02-05", endDate: "2025-03-20" },
   { id: "p23", name: "Dashboard Monitoring Jaringan", clientId: "c11", client: "PT. Telekomunikasi Cerdas",     revenue: 38_000_000, hours: 245, status: "completed", priority: "high",   startDate: "2025-01-20", endDate: "2025-04-15" },
-  { id: "p24", name: "Aplikasi Telemedicine",        clientId: "c12", client: "Startup HealthTech Sehatku",     revenue: 31_000_000, hours: 215, status: "pending",   priority: "high",   startDate: "2025-05-01", endDate: "2025-07-31" },
+  { id: "p24", name: "Aplikasi Telemedicine",        clientId: "c12", client: "Startup HealthTech Sehatku",     revenue: 31_000_000, hours: 215, status: "completed",   priority: "high",   startDate: "2025-05-01", endDate: "2025-07-31" },
   { id: "p25", name: "Portal Listing Properti",      clientId: "c13", client: "PT. Properti Maju Bersama",      revenue: 18_000_000, hours: 140, status: "onHold",    priority: "medium", startDate: "2025-03-15", endDate: "2025-05-30" },
   { id: "p26", name: "Website Fashion Store",        clientId: "c14", client: "CV. Fashion Lokal Kita",         revenue: 16_500_000, hours: 110, status: "completed", priority: "medium", startDate: "2025-02-10", endDate: "2025-03-25" },
   { id: "p27", name: "IoT Solar Panel Dashboard",    clientId: "c15", client: "PT. Energi Terbarukan",          revenue: 29_000_000, hours: 195, status: "completed", priority: "high",   startDate: "2025-01-25", endDate: "2025-04-10" },
-  { id: "p28", name: "Aplikasi Food Delivery",       clientId: "c16", client: "Startup FoodTech RasaNusantara", revenue: 34_000_000, hours: 240, status: "pending",   priority: "high",   startDate: "2025-06-01", endDate: "2025-08-31" },
+  { id: "p28", name: "Aplikasi Food Delivery",       clientId: "c16", client: "Startup FoodTech RasaNusantara", revenue: 34_000_000, hours: 240, status: "completed",   priority: "high",   startDate: "2025-06-01", endDate: "2025-08-31" },
   { id: "p29", name: "Sistem Klaim Asuransi",        clientId: "c17", client: "PT. Asuransi Aman Selalu",       revenue: 26_000_000, hours: 175, status: "completed", priority: "high",   startDate: "2025-03-01", endDate: "2025-05-15" },
   { id: "p30", name: "Website Booking Wisata",       clientId: "c18", client: "CV. Wisata Bahari",              revenue: 12_000_000, hours: 85,  status: "onHold",  priority: "low",    startDate: "2025-02-20", endDate: "2025-04-05" },
   { id: "p31", name: "MES Manufacturing System",     clientId: "c19", client: "PT. Manufaktur Presisi",         revenue: 36_000_000, hours: 230, status: "completed", priority: "high",   startDate: "2025-04-01", endDate: "2025-06-30" },
@@ -98,6 +105,13 @@ export const mockProjects = [
   { id: "p48", name: "Platform Streaming Musik",     clientId: "c36", client: "Startup Musik Nusantara",        revenue: 17_000_000, hours: 130, status: "pending",   priority: "medium", startDate: "2025-06-20", endDate: "2025-08-25" },
   { id: "p49", name: "ERP Tekstil",                  clientId: "c37", client: "PT. Tekstil Adi Busana",         revenue: 23_000_000, hours: 160, status: "completed", priority: "high",   startDate: "2025-03-10", endDate: "2025-05-25" },
   { id: "p50", name: "Website Portofolio Foto",      clientId: "c38", client: "CV. Fotografi Momen Indah",      revenue: 10_000_000, hours: 65,  status: "onHold",  priority: "low",    startDate: "2025-04-15", endDate: "2025-05-20" },
+
+  // ===== 5 Proyek Tambahan untuk Klien Baru (c39 – c43) =====
+  { id: "p51", name: "Sistem Tracking Pengiriman",   clientId: "c39", client: "PT. Logistik Antar Nusa",     revenue: 26_000_000, hours: 185, status: "completed", priority: "high",   startDate: "2025-02-01", endDate: "2025-04-30" },
+  { id: "p52", name: "Aplikasi Dompet Digital",      clientId: "c40", client: "Startup FinPay Indonesia",    revenue: 35_000_000, hours: 250, status: "pending",   priority: "high",   startDate: "2025-07-01", endDate: "2025-09-30" },
+  { id: "p53", name: "E-Commerce Batik Online",      clientId: "c41", client: "CV. Batik Warisan Nusantara", revenue: 15_000_000, hours: 100, status: "completed", priority: "medium", startDate: "2025-03-15", endDate: "2025-05-10" },
+  { id: "p54", name: "Platform Cloud Management",    clientId: "c42", client: "PT. Solusi Cloud Indonesia",  revenue: 41_000_000, hours: 270, status: "onHold",    priority: "high",   startDate: "2025-05-01", endDate: "2025-08-15" },
+  { id: "p55", name: "IoT Monitoring Hidroponik",    clientId: "c43", client: "Startup Tanaman Hidroponik",  revenue: 13_500_000, hours: 90,  status: "pending",   priority: "medium", startDate: "2025-06-01", endDate: "2025-07-31" },
 ];
 
 // Used by the Line Chart: daily actual vs target revenue
