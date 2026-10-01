@@ -83,7 +83,7 @@ src/
 │   ├── charts/          # RevenueLineChart, StatusStackedChart,
 │   │                    # ClientDonutChart, SkillsRadarChart
 │   ├── dashboard/       # StatsCard, StatsGrid
-│   ├── layout/          # Navbar, Sidebar, RightSidebar
+│   ├── layout/          # Navbar, Sidebar
 │   ├── table/           # ProjectTable (sort, paginate, export)
 │   └── ui/              # AchievementToast
 │

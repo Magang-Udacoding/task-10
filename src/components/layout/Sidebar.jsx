@@ -4,20 +4,14 @@ import {
   FiChevronDown,
   FiChevronRight,
   FiCircle,
-  FiFolder,
   FiGrid,
-  FiStar,
-  FiUser,
   FiX,
 } from "react-icons/fi";
 import useDashboard from "../../hooks/useDashboard";
 
-const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", icon: FiGrid },
-  { id: "projects", label: "Projects", icon: FiFolder },
-  { id: "clients", label: "Clients", icon: FiUser },
-  { id: "favourites", label: "Favourites", icon: FiStar },
-];
+// Hanya Dashboard — Projects/Clients/Favourites belum ada routing,
+// jadi menunya hanya ganti highlight tanpa mengganti konten.
+const NAV_ITEMS = [{ id: "dashboard", label: "Dashboard", icon: FiGrid }];
 
 const STATUS_COLOR = {
   completed: "text-green-500",
