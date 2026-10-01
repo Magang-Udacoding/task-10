@@ -22,45 +22,48 @@
 
 Berikut adalah lampiran bukti visual bahwa aplikasi ini telah 100% memenuhi dan melampaui kriteria **"Screenshot 12 Bukti"** yang diwajibkan:
 
-### 1. Desktop Full Layout
-![Desktop Light Mode](src/assets/light%20mode%20dashboard.png)
+### 1. Cover / Hero Banner
+![Hero Banner](./src/assets/hero.png)
 
-### 2. Dark Mode Comparison
-![Desktop Dark Mode](src/assets/dark%20mode%20dashboard.png)
+### 2. Desktop Full Layout (Light)
+![Desktop Light Mode](./src/assets/light%20mode%20dashboard.png)
 
-### 3. Mobile Responsive Stacked
-<div align="center">
-  <img src="src/assets/lightmodeMobile.png" width="45%" alt="Mobile Light" />
-  <img src="src/assets/darkmodeMobile.png" width="45%" alt="Mobile Dark" />
-</div>
+### 3. Dark Mode Comparison
+![Desktop Dark Mode](./src/assets/dark%20mode%20dashboard.png)
 
-### 4. 4 Charts Different States
+### 4. Mobile Responsive Stacked (Light)
+![Mobile Light](./src/assets/lightmodeMobile.png)
+
+### 5. Mobile Responsive Stacked (Dark)
+![Mobile Dark](./src/assets/darkmodeMobile.png)
+
+### 6. 4 Charts Different States
 Menampilkan distribusi grid 2x2, interaktivitas, dan variasi _tools/tooltips_.
-![Diagram](src/assets/diagram.png)
+![Diagram](./src/assets/diagram.png)
 
-### 5. Table Pagination + Sort + Favorites
+### 7. Table Pagination + Sort + Favorites
 Tabel dinamis dengan *pagination*, logika *multi-sorting*, indikator *favorites*, dan label status berwarna.
-![Table Pagination](src/assets/tablePagination.png)
+![Table Pagination](./src/assets/tablePagination.png)
 
-### 6. Achievement Popup Confetti
+### 8. Achievement Popup Confetti
 *Modal pop-up* yang dipicu dari _Right Sidebar_, lengkap dengan animasi *confetti*.
-![Achievements](src/assets/achievements.png)
+![Achievements](./src/assets/achievements.png)
 
-### 7. CSV / Excel Export Preview
+### 9. CSV / Excel Export Preview
 Bukti eksekusi _export_ dari tabel ke format Excel/CSV secara *native* yang dibuka pada *spreadsheet reader*.
-![Export CSV/Excel](src/assets/exportCSVPre.png)
+![Export CSV/Excel](./src/assets/exportCSVPre.png)
 
-### 8. Performance DevTools (React.memo Effect)
+### 10. Performance DevTools (React.memo Effect)
 Bukti *Profiling* bahwa `StatsCard` **tidak melakukan render ulang (Did not render)** ketika *state global/context* berubah, menghemat resource komputasi secara signifikan.
-![React Memo DevTools](src/assets/DevToolsReactMemo.png)
+![React Memo DevTools](./src/assets/DevToolsReactMemo.png)
 
-### 9. PWA & Offline Mode
+### 11. PWA & Offline Mode
 Aplikasi terdeteksi sebagai aplikasi mandiri (PWA) dan tetap dapat memuat antarmuka dengan normal saat koneksi internet terputus.
-![PWA Offline Mode](src/assets/PWAMode.png)
+![PWA Offline Mode](./src/assets/PWAMode.png)
 
-### 10. Print Preview (Bonus Requirement)
-Tampilan cetak (Ctrl+P / Cmd+P) di mana _sidebar_ disembunyikan dan konten memanjang ke bawah dengan format bersih (tinta-hitam/putih untuk *accessibility*).
-![Print Preview](src/assets/printPrev.png)
+### 12. Print Preview (Bonus Requirement)
+Tampilan cetak (Ctrl+P / Cmd+P) di mana _sidebar_ disembunyikan dan konten memanjang ke bawah dengan format bersih.
+![Print Preview](./src/assets/printPrev.png)
 
 ---
 
