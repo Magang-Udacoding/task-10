@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useMemo, useState, useEffect } from "react";
 
-function usePagination(data, itemsPerPage = 15) {
+function usePagination(data, itemsPerPage = 10) {
     const [currentPage, setCurrentPage] = useState(1)
 
     const totalPage = Math.max(

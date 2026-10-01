@@ -31,6 +31,21 @@ export const exportToCSV = (data, filename = 'export') => {
     URL.revokeObjectURL(url)
 }
 
+import * as XLSX from 'xlsx';
+
+export const exportToExcel = (data, filename = 'export') => {
+    if (!data || data.length === 0) {
+        console.warn('exportToExcel: no data to export')
+        return
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Projects");
+
+    XLSX.writeFile(workbook, `${filename}-${new Date().toISOString().split('T')[0]}.xlsx`);
+}
+
 export const transformProjectsForExport = (projects) =>
     projects.map((p) => ({
     'Project Name': p.name,
