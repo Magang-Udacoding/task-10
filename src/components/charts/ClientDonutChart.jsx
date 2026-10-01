@@ -6,7 +6,7 @@ import { buildClientChartData } from '../../utils/chartUtils.js'
 import { formatCurrency } from '../../utils/dateUtils.js'
 
 function ClientDonutChart() {
-  const { state } = useDashboard()
+  const { state, dispatch } = useDashboard()
   const isDark = state.theme === 'dark'
 
   const chartData = useMemo(
@@ -20,6 +20,17 @@ function ClientDonutChart() {
     responsive: true,
     maintainAspectRatio: false,
     cutout: '65%',   // donut hole size. 0% = full pie chart
+    // Requirement #40: Tap slice → filter table
+    onClick: (event, elements) => {
+      if (elements.length > 0) {
+        const index = elements[0].index;
+        const clientName = chartData.labels[index];
+        dispatch({ type: 'SET_FILTER', payload: clientName });
+        
+        // Auto-scroll sedikit ke bawah agar tabel terlihat
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }
+    },
     plugins: {
       legend: {
         position: 'right',
