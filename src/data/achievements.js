@@ -9,9 +9,9 @@ export const ACHIEVEMENTS = [
     iconClass: "text-green-500",
   },
   {
-    id: "projects_10",
-    title: "10 Projects Selesai",
-    description: "Berhasil menyelesaikan 10 project",
+    id: "projects_50",
+    title: "50 Projects Completed",
+    description: "Berhasil menyelesaikan 50 project",
     icon: FaRocket,
     iconClass: "text-red-500",
   },
@@ -28,9 +28,9 @@ export const checkAchievement = (id, state) => {
   switch (id) {
     case "revenue_100m":
       return state.revenue >= 100_000_000;
-    case "projects_10":
+    case "projects_50":
       return (
-        state.projects.filter((p) => p.status === "completed").length >= 10
+        state.projects.filter((p) => p.status === "completed").length >= 50
       );
     case "top_client": {
       const revenueMap = {};
